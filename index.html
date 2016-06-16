@@ -1,0 +1,171 @@
+
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>TaskMe</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+		<link rel="stylesheet" href="libs/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="libs/css/jquery.mobile-1.4.5.min.css" />
+		<link rel="stylesheet" href="libs/css/waves.css" />
+		<link rel="stylesheet" href="libs/css/animate.css" />
+		<link rel="stylesheet" href="libs/css/nativedroid2.css" />
+		<link rel="stylesheet" href="css/custom.css" />
+				<style>
+					/* Prevent FOUC */
+					body { opacity: 0; }
+				</style>
+
+	</head>
+		<script src="cordova.js"></script>
+		<script src="libs/js/jquery.min.js"></script>
+		<script src="libs/js/jquery-ui.min.js"></script>
+		<script src="libs/js/jquery.mobile-1.4.5.min.js"></script>
+		<script src="libs/js/waves.min.js"></script>
+		<script src="libs/js/wow.min.js"></script>
+		<script>
+			var wow;
+		</script>
+		<script src="libs/js/nativedroid2.js"></script>
+		<script src="libs/js/nd2settings.js"></script>
+		<script src="js/tache.class.js"></script>
+	<script>
+			var taches; 
+			var t,s,e;
+			var localStorageChange;
+			var detailPage;
+			var afficher = "taches";
+			
+				console.log("init triggered");
+			/*	t = new Tache("maTache","mois",12,1464732000000);
+				s = new Tache("maTache2","jours",14,1464732000000);
+				se = new Tache("maTache3","jours",7,1464732000000);
+				t.save();
+				s.save();
+				se.save();
+				*/
+				taches = new TacheArray();
+				taches.loadFromLocalStorage();
+				
+			document.addEventListener("deviceready", onDeviceReady, false);
+
+		function onDeviceReady(){
+			document.addEventListener("backbutton", function(e){
+			if($.mobile.activePage.is('#main')){
+				e.preventDefault();
+				console.log("Exiting application from login page");
+				navigator.app.exitApp();
+			}else {
+				navigator.app.backHistory();
+			}
+			}, false);
+	}
+</script>		
+		
+	<body>
+
+
+		<div data-role="page" id="main">
+			<div data-role="header" data-position="fixed" class="wow fadeIn">
+				<a href="#detailPage" tacheId="_new_" data-transition="pop" class="ui-btn ui-btn-left wow fadeIn" data-wow-delay='0.8s'><i class="zmdi zmdi-plus-circle zmdi-hc-2x"></i></a>
+				<h2>Liste des taches</h2>
+				<a href="#menuPanel" class="ui-btn ui-btn-right wow fadeIn fRight" data-wow-delay='0.8s'><i class="zmdi zmdi-more-vert"></i></a>
+			</div>
+			<div role="main" class="ui-content wow fadeIn" data-inset="false" data-wow-delay="0.2s">
+				<ul data-role="listview" data-icon="false" id="tachesList">
+					<li>
+						<a href="#detailPage" data-transition="pop">
+							<button class="ui-btn ui-btn-inline ui-btn-fab ui-btn-raised clr-warning"><i class="zmdi zmdi-replay zmdi-hc-lg"></i></button>
+							<h2 style="display:inline">Coiffeur</h2><div id="date"><i class="zmdi zmdi-pin flag"><p style="display:inline">&nbsp;25/07/16</p></i></div>
+								<div class="progress" data-amount="0">
+									<div id="coiffeur" class="amount"></div>
+								</div>	
+						</a>
+					</li>
+					<li>
+						<a href="#detailPage" data-transition="pop">
+							<button class="ui-btn ui-btn-inline ui-btn-fab ui-btn-raised clr-warning"><i class="zmdi zmdi-replay zmdi-hc-lg"></i></button>
+							<h2 style="display:inline">Draps</h2><div id="date"><i class="zmdi zmdi-pin flag"><p style="display:inline">&nbsp;25/12/16</p></i></div>
+								<div class="progress" data-amount="0">
+									<div id="draps" class="amount"></div>
+								</div>	
+						</a>
+					</li>
+				</ul>
+			</div>
+			
+			<div data-role="panel" id="menuPanel" data-position="right" data-display="overlay">
+					<div data-role="header"  class="wow fadeIn"><h2>Trier par</h2></div>
+					 <select  id="tri">
+                            <option value="dueDate">Ech&eacute;ance</option>
+                            <option value="name" selected>Nom</option>
+                            <option value="startDate" >Date d&eacute;marrage</option>
+							<option value="gauge">Avancement</option>
+                       </select>
+					  <div data-role="header"  class="wow fadeIn"><h2>Afficher les</h2></div>
+					 <select  id="afficher">
+                            <option value="taches" selected>Taches</option>
+                            <option value="loisirs">Loisirs</option>
+                       </select>
+					 <button href="#" data-rel="close" class="ui-btn clr-btn-blue-grey"><i class="zmdi zmdi-close"></i>&nbsp;Fermer</button>
+					 
+			</div><!-- /panel -->
+		</div>
+		<div data-role="page" id="detailPage">
+			<div data-role="header" data-position="fixed" class="wow fadeIn">
+			<a href="#" data-rel="back" data-transition="reverse" class="ui-btn ui-btn-left wow fadeIn" data-wow-delay='0.8s'><i class="zmdi zmdi-arrow-left "></i></a>
+			<h1>D&eacute;tail</h1>
+			<a href="#popupDialog" data-rel="popup" data-transition="pop" data-position-to="window" class=" wow fadeIn  ui-btn ui-btn-right fRight" data-wow-delay='0.8s' id="trash" ><i class="zmdi zmdi-delete "></i></a>
+			
+			
+			
+			
+			</div>
+			<div role="main" class="ui-content wow fadeIn" data-inset="false" data-wow-delay="0.2s">
+				
+			<h5 class="nd2-title">Nom de la tache:</h5>
+            <input type="text" name="nom" id="nom" value="" data-clear-btn="true" placeholder="Taper le nom ici">
+			<div style="height:20px"></div>
+			<h5 class="nd2-title">Fr&eacute;quence:</h5>
+			<label for="recurrence">Unit&eacute;:</label>
+                        <select name="select-choice-1" id="unite" data-native-menu="false">
+                            <option value="jours">Jours</option>
+                            <option value="semaines" selected>Semaines</option>
+                            <option value="mois"  >Mois</option>
+							<option value="annees">Ann&eacute;es</option>
+                        </select>
+			<div style="height:10px"></div>
+			<label for="slider2b">Tous les:</label>
+             <input type="range" name="slider2" id="duree" value="0" min="0" max="6" data-highlight="true">
+			<div style="height:10px"></div>
+			<label for="inputDate">A partir de:</label>
+                        <input type="date" name="inputDate" id="inputDate" value="" data-clear-btn="true" placeholder="">
+			<div style="height:10px"></div>
+			<label for="type">Type:</label>
+                        <select name="select-choice-1" id="type" data-native-menu="false">
+                            <option value="taches" selected>Tache</option>
+                            <option value="loisirs" >Loisir</option>
+                        </select>
+			<div style="height:20px"></div>
+			<button class="ui-btn" id="saveBtn"><i class="zmdi zmdi-mail-send"></i>Sauvegarder</button>
+			<div data-role="popup" id="popupDialog" data-history="false">
+
+                <div data-role="header">
+                	<h1 class='nd-title'>Supprimer la tache?</h1>
+            	</div>
+
+                <div data-role="content" class="ui-content">
+                    <p>Etes vous sur de vouloir supprimer cette tache?</p>
+                    <button id="confirmBtn" class="ui-btn"><i class='zmdi zmdi-check'></i>&nbsp;Oui</a>
+                    <button  id="cancelBtn" class="ui-btn"><i class='zmdi zmdi-close'></i>&nbsp;Non</a>
+                </div>
+            </div>
+
+			</div>
+		</div>
+	</body>
+	
+		<script src="js/mainPage.js"></script>
+		<script src="js/detailPage.js"></script>
+		
+</html>
