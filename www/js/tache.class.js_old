@@ -1,0 +1,168 @@
+ class Tache{
+	constructor(_nom,_unite,_duree,_date){
+		this.nom = _nom;
+		this.unite=_unite
+		this.duree=_duree;
+		this.date = _date;
+	}
+	
+	save(){
+		this.delete();
+		window.localStorage.setItem(this.nom,this.toString());
+	
+	}
+	
+	getNom(){
+		return this.nom;
+	}
+	delete(){
+		window.localStorage.removeItem(this.nom);
+	
+	}
+	reset(){
+		this.date =  Date.now();
+		this.save();
+	}
+	toString(){
+		return JSON.stringify(this);
+	}
+	getGaugeValue(){
+		var value = Math.ceil(0.75*100*((Date.now()-this.date)/(this.getDueDateMS()-this.date)));
+		if(value>100) return 100;
+		if(value<0) return 0;
+		return value;
+		
+	}
+	
+	getDueDateMS(){
+		var date = new Date(this.date);
+		switch (this.unite){
+			case "jours":
+				date.setTime(this.date+this.duree*24*60*60*1000);
+				break;
+			case "semaines":
+				date.setTime(this.date+this.duree*7*24*60*60*1000);
+				break;
+			case "mois":
+				date.setMonth(date.getMonth()+this.duree);
+				break;
+			case "annee":
+				date.setYear(new Date(this.date).getFullYear()+this.duree);
+				break;
+		}
+		return date;
+	}
+	
+	getDueDate(){
+		var date = this.getDueDateMS();
+		var day = date.getDate();
+		var month = date.getMonth()+1
+		if(month < 10){month = '0' + month;}
+		if(day < 10){day = '0' + day;}
+		return day+"/"+month+"/"+date.getFullYear();
+	}
+}
+
+class TacheArray{
+
+	constructor(){
+		this.length = 0;
+		this.taches = new Array();
+	}
+	
+	add(obj){
+		this.taches.push(obj);
+		this.length = this.length+1;
+		return true;
+	}
+	
+	removeTacheByName(_nom){
+		var find = false;
+		var array = this.taches;
+		$.each(array, function(i){
+			//console.log("array loop:"+i);
+			if(array[i].nom === _nom) {
+				//console.log("removing obj at:"+i);
+				array[i].delete();
+				array.splice(i,1);
+				find = true;
+				return false;
+			}
+			
+			return true;
+		});
+		if(find){
+			this.length = this.length-1;
+		}
+		return find;
+	}
+	getTacheByName(_nom){
+		var tache = {};
+		var array = this.taches;
+		$.each(array, function(i){
+			if(array[i].nom === _nom) {
+				tache = array[i];
+				return false;
+			}
+			
+			return true;
+		});
+		return tache;
+	
+	}
+	loadFromLocalStorage(){
+		var _this = this;
+		$.each(window.localStorage, function(key, value){
+			if(key!=="_tri_"){
+				var t = JSON.parse(value);
+				var obj = new Tache(t.nom,t.unite,t.duree,t.date);
+				_this.add(obj);
+			}
+
+		});
+	
+	}
+	toString(){
+		return JSON.stringify(this.taches);
+		
+	
+	}
+	orderByDueDate(){
+		this.taches.sort(function(a,b){
+			return a.getDueDateMS()-b.getDueDateMS();
+		
+		});
+	
+	}
+	
+	orderByGauge(){
+		this.taches.sort(function(a,b){
+			return b.getGaugeValue()-a.getGaugeValue();
+		});
+	
+	}
+	
+	orderByStartDate(){
+		this.taches.sort(function(a,b){
+			return a.date-b.date;
+		
+		});
+	
+	}
+	
+	orderByName(){
+		this.taches.sort(function (a,b){
+			return a.nom > b.nom;
+		});
+	}
+	save(){
+		var array = this.taches
+		$.each(array, function(i){
+			array[i].save();
+		}
+		);
+	
+	}
+	
+
+}
