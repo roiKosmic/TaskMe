@@ -94,10 +94,10 @@ function updateSliceByUnite(myUnite){
 				nMax=30;
 				break
 			case "semaines":
-				nMax = 6;
+				nMax = 10;
 				break;
 			case "mois":
-				nMax = 12;
+				nMax = 18;
 				break;
 			case "annees":
 				nMax = 5;
