@@ -35,7 +35,7 @@
 			var localStorageChange;
 			var detailPage;
 			var afficher = "taches";
-			
+			var myService;
 				console.log("init triggered");
 			/*	t = new Tache("maTache","mois",12,1464732000000);
 				s = new Tache("maTache2","jours",14,1464732000000);
@@ -59,7 +59,10 @@
 				navigator.app.backHistory();
 			}
 			}, false);
-	}
+
+			initService();
+
+			}
 </script>		
 		
 	<body>
@@ -101,6 +104,7 @@
                             <option value="name" selected>Nom</option>
                             <option value="startDate" >Date d&eacute;marrage</option>
 							<option value="gauge">Avancement</option>
+						 	<option value="dayToGo">Jours restants</option>
                        </select>
 					  <div data-role="header"  class="wow fadeIn"><h2>Afficher les</h2></div>
 					 <select  id="afficher">
@@ -164,7 +168,7 @@
 			</div>
 		</div>
 	</body>
-	
+	<script src="js/notificationServiceManager.js"></script>
 		<script src="js/mainPage.js"></script>
 		<script src="js/detailPage.js"></script>
 		

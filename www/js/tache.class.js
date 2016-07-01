@@ -35,7 +35,7 @@ var Tache = function (_nom,_unite,_duree,_date,_type) {
 		if(value<0) return 0;
 		return value;
 		
-	}
+	};
 	
 	Tache.prototype.getDueDateMS=function(){
 		var date = new Date(this.date);
@@ -54,7 +54,14 @@ var Tache = function (_nom,_unite,_duree,_date,_type) {
 				break;
 		}
 		return date;
-	}
+	};
+
+	Tache.prototype.getDayToDueDate=function(){
+	    var now = Date.now()
+	    var dueDate = this.getDueDateMS();
+	    var dueDay = (now-dueDate)/(24*60*60*1000)
+        return Math.round(dueDay);
+	};
 	
 	Tache.prototype.getDueDate=function(){
 		var date = this.getDueDateMS();
@@ -76,7 +83,30 @@ var TacheArray = function(){
 		this.length = this.length+1;
 		return true;
 	};
-	
+
+	TacheArray.prototype.getSrvConfig=function(){
+	    var dateDuJour = Date.now()-(24*60*60*1000);
+	    var jsonResult = {
+	        "config":[]
+	    };
+
+	    var array = this.taches;
+
+            $.each(array, function(i){
+        			if(array[i].getDueDateMS()>= dateDuJour) {
+        				//console.log("removing obj at:"+i);
+        				var r = {
+        				    nom:  array[i].nom,
+        				    dueDate: array[i].getDueDateMS().getTime()
+        				    };
+        			    jsonResult.config.push(r);
+        			}
+        	});
+
+        return jsonResult;
+
+	};
+
 	TacheArray.prototype.removeTacheByName=function(_nom){
 		var find = false;
 		var array = this.taches;
@@ -138,13 +168,18 @@ var TacheArray = function(){
 		});
 	};
 	
+	TacheArray.prototype.orderByDayToGo=function(){
+    		this.taches.sort(function(a,b){
+    			return b.getDayToDueDate()-a.getDayToDueDate();
+    		});
+
+    };
 	TacheArray.prototype.orderByGauge=function(){
-		this.taches.sort(function(a,b){
-			return b.getGaugeValue()-a.getGaugeValue();
-		});
-	
-	};
-	
+    		this.taches.sort(function(a,b){
+    			return b.getGaugeValue()-a.getGaugeValue();
+    		});
+
+    	};
 	TacheArray.prototype.orderByStartDate=function(){
 		this.taches.sort(function(a,b){
 			return a.date-b.date;

@@ -17,6 +17,7 @@ $( "#detailPage" ).on( "pagecreate", function( event ) {
 		taches.removeTacheByName(detailPage);
 		$( "#popupDialog" ).popup( "close" );
 		$.mobile.navigate("#main");
+		sendConfigUpdate();
 	});
 	
 	$("#saveBtn").click(function(e){
@@ -47,6 +48,7 @@ $( "#detailPage" ).on( "pagecreate", function( event ) {
 			
 		}
 		$.mobile.navigate("#main");
+		sendConfigUpdate();
 	}
 	);
 

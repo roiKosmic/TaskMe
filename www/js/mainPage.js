@@ -68,7 +68,7 @@ if(taches){
 			"<li position="+i+">"+
 						"<a  id='myList' href='#detailPage' tacheId='"+array[i].nom+"' data-transition='pop'>"+
 							"<button id='rstBtn' tacheId='"+array[i].nom+"' class='ui-btn ui-btn-inline ui-btn-fab ui-btn-raised clr-warning'><i class='zmdi zmdi-replay zmdi-hc-lg'></i></button>"+
-							"<h2 style='display:inline'>&nbsp;"+array[i].nom+"</h2><div id='date'><i class='zmdi zmdi-pin flag'><p style='display:inline'>&nbsp;"+array[i].getDueDate()+"</p></i></div>"+
+							"<h2 style='display:inline'>&nbsp;"+array[i].nom+"</h2><div style='display:inline' id='d'>&nbsp;("+array[i].getDayToDueDate()+"j)</div><div id='date'><i class='zmdi zmdi-pin flag'><p style='display:inline'>&nbsp;"+array[i].getDueDate()+"</p></i></div>"+
 								"<div class='progress' data-amount='"+array[i].getGaugeValue()+"'>"+
 									"<div id='draps' class='amount'></div>"+
 								"</div>"+	
@@ -103,11 +103,14 @@ if(taches){
 			rotate(btn);            
 			var v = $(this).parent().find('.progress .amount');
 			var d =  $(this).parent().find('#date');
+			var dd = $(this).parent().find('#d');
 			var gauge = t.getGaugeValue();
 			console.log("Gauge "+gauge);
 			v.css("width",100-gauge+"%");
 			v.hide().show(0);
-	
+	        sendConfigUpdate();
+	        dd.html("&nbsp;("+t.getDayToDueDate()+"j)");
+	        dd.hide().show("slow");
 			d.children("i").children("p").html("&nbsp;"+t.getDueDate());
 			d.hide().show("slow");
 		}
@@ -127,5 +130,5 @@ function sortTaches(){
 	if(tri === "gauge") taches.orderByGauge();
 	if(tri === "startDate") taches.orderByStartDate();
 	if(tri === "name") taches.orderByName();
-
+    if(tri === "dayToGo") taches.orderByDayToGo();
 }
