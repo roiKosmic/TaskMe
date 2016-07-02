@@ -8,7 +8,7 @@
 
 
 ##Warnings
-L'application a été testée uniquement sur des smartphones Android 4.2 et 5.1. Du fait de l'utilisation du plugin bgs-core, l'application n'est compatible que sur Android.
+L'application a été testée uniquement sur des smartphones Android 4.2 et 5.1. Du fait de l'utilisation du plugin bgs-core, l'application n'est compatible que sur Android en l'état. Des modifications sont nécessaire pour le rendre compatible IOS (gestion des notifications notamment)
 
 ##Crédits
 * L'application utilise le framework jquery, jquerymobile
