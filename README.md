@@ -10,6 +10,17 @@
 ##Warnings
 L'application a été testée uniquement sur des smartphones Android 4.2 et 5.1. Du fait de l'utilisation du plugin bgs-core, l'application n'est compatible que sur Android en l'état. Des modifications sont nécessaire pour le rendre compatible IOS (gestion des notifications notamment)
 
+##Installation
+###Utilisateur (android)
+* Télécharger l'apk disponible sur le repository dans le dossier apk.
+* Copier l'apk sur votre téléphone mobile
+* Autoriser l'installation de paquets autosignés
+* Cliquer sur l'apk depuis votre téléphone pour l'installer
+
+##Développeur
+* Installer cordova
+* 
+
 ##Crédits
 * L'application utilise le framework jquery, jquerymobile
 * L'application utilise la librairie nativedroid2 http://nativedroid.godesign.ch/material/
