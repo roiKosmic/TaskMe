@@ -19,7 +19,37 @@ L'application a été testée uniquement sur des smartphones Android 4.2 et 5.1.
 
 ##Développeur
 * Installer cordova
-* 
+* Créer le projet TaskMe
+```
+cordova create TaskMe com.kosmic.taskMe TaskMe  
+```
+* Build pour la plateforme Android
+```
+cd TaskMe
+cordova platform add android 
+```
+* Installer le plugin bg-core
+
+* copier le dossier www du repository dans votre dossier TaskMe\www
+
+* copier le contenu du  dossier class dans votre dossier TaskMe\platforms\android\src\com\red_folder\phonegap\plugin\backgroundservice
+
+
+* Mise à jours du AndroidManifest
+``` 
+cd chiconMobile\platforms\android\AndroidManifest.xml
+``` 
+``` xml
+<uses-permission android:name="android.permission.INTERNET" />
+```
+* copy the www folder contents to chiconMobile\www
+* Build your project
+``` 
+cd chiconMobile
+cordova build android
+``` 
+
+
 
 ##Crédits
 * L'application utilise le framework jquery, jquerymobile
