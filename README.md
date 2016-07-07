@@ -29,26 +29,33 @@ cd TaskMe
 cordova platform add android 
 ```
 * Installer le plugin bg-core
-
+```
+cordova plugin add https://github.com/Red-Folder/bgs-core.git
+````
+* Mise à jours du AndroidManifest
+``` 
+cd TaskMe\platforms\android\AndroidManifest.xml
+``` 
+``` xml
+        <receiver android:name="com.red_folder.phonegap.plugin.backgroundservice.BootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <service android:name="com.red_folder.phonegap.plugin.backgroundservice.taskMeSrv.NotificationSrv">
+            <intent-filter>
+                <action android:name="com.red_folder.phonegap.plugin.backgroundservice.taskMeSrv.NotificationSrv" />
+            </intent-filter>
+        </service>
+```
 * copier le dossier www du repository dans votre dossier TaskMe\www
 
 * copier le contenu du  dossier class dans votre dossier TaskMe\platforms\android\src\com\red_folder\phonegap\plugin\backgroundservice
 
-
-* Mise à jours du AndroidManifest
+* Construire votre projet
 ``` 
-cd chiconMobile\platforms\android\AndroidManifest.xml
-``` 
-``` xml
-<uses-permission android:name="android.permission.INTERNET" />
-```
-* copy the www folder contents to chiconMobile\www
-* Build your project
-``` 
-cd chiconMobile
 cordova build android
 ``` 
-
 
 
 ##Crédits
