@@ -14,15 +14,15 @@ $("#main").on("pagebeforecreate",function(event){
    }else{
 	if(taches) taches.orderByName();
    }
-	
+
 	$("#tri").change(function(event){
-	event.preventDefault();
-	window.localStorage.setItem("_tri_",$(this).val());
-	sortTaches();
+	    event.preventDefault();
+	    window.localStorage.setItem("_tri_",$(this).val());
+	    sortTaches();
 	
-	updateTaskList();
+	    updateTaskList();
 	$("#menuPanel").panel("close");
- 
+
 	});
   
    $("#afficher").change(function(event){
@@ -40,6 +40,20 @@ $("#main").on("pagebeforecreate",function(event){
 $( '#main' ).on( 'pagebeforeshow',function(event){
 	if(taches) console.log(taches.length);
 	updateTaskList();
+	$(document).on("swipe",function(){
+    	    console.log("swipping");
+    	    $("#tachesList").hide(function(){
+    	    if($("#afficher").val()==="taches"){
+    	        $("#afficher").val("loisirs").change();
+    	    }else{
+    	        $("#afficher").val("taches").change();
+    	    }
+
+    	    $("#tachesList").show(1000);});
+
+
+
+    	});
 });
 
 function rotate(elm){
