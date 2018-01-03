@@ -12,6 +12,7 @@ var Tache = function (_nom,_unite,_duree,_date,_type) {
 	
 	Tache.prototype.save= function(){
 		this.delete();
+		console.log("Saving "+this.nom +" "+this.toString());
 		window.localStorage.setItem(this.nom,this.toString());
 	};
 	
@@ -71,6 +72,14 @@ var Tache = function (_nom,_unite,_duree,_date,_type) {
 		if(day < 10){day = '0' + day;}
 		return day+"/"+month+"/"+date.getFullYear();
 	};
+
+	Tache.prototype.isNull=function(){
+        for(var key in this) {
+            if(this.hasOwnProperty(key))
+                return false;
+        }
+        return true;
+    };
 
 
 var TacheArray = function(){
@@ -143,18 +152,26 @@ var TacheArray = function(){
 	};
 	TacheArray.prototype.loadFromLocalStorage=function(){
 		var _this = this;
-		$.each(window.localStorage, function(key, value){
+		for (var i = 0; i < window.localStorage.length; i++){
+          var key = window.localStorage.key(i);
+          var  value = window.localStorage.getItem(key);
+
+		  console.log("Inspecting :"+key+" value"+value);
 			if(key!=="_tri_"){
-				var t = JSON.parse(value);
-				if(t.type){
-					var obj = new Tache(t.nom,t.unite,t.duree,t.date,t.type);
-				}else{
-					var obj = new Tache(t.nom,t.unite,t.duree,t.date,"");
+			    try{
+				    var t = JSON.parse(value);
+				    if(t.type){
+					    var obj = new Tache(t.nom,t.unite,t.duree,t.date,t.type);
+				    }else{
+					    var obj = new Tache(t.nom,t.unite,t.duree,t.date,"");
+				    }
+				    _this.add(obj);
+				}catch(e){
+				    console.log("Error"+e);
 				}
-				_this.add(obj);
 			}
 
-		});
+		}
 	
 	};
 	TacheArray.prototype.toString=function(){

@@ -28,6 +28,8 @@ $("#main").on("pagebeforecreate",function(event){
    $("#afficher").change(function(event){
 	event.preventDefault();
 	updateTaskList();
+	$("#title").html("Liste des "+$("#afficher").val());
+   // $("#title").hide().show(0);
 	afficher = $("#afficher").val();
 	$("#menuPanel").panel("close");
  
@@ -50,10 +52,13 @@ $( '#main' ).on( 'pagebeforeshow',function(event){
     	    }
 
     	    $("#tachesList").show(1000);});
-
+            $("#title").html("Liste des "+$("#afficher").val());
+           // $("#title").hide().show(0);
 
 
     	});
+    $("#title").html("Liste des "+$("#afficher").val());
+    //$("#title").hide().show(0);
 });
 
 function rotate(elm){

@@ -70,8 +70,8 @@
 
 		<div data-role="page" id="main">
 			<div data-role="header" data-position="fixed" class="wow fadeIn">
-				<a href="#detailPage" tacheId="_new_" data-transition="pop" class="ui-btn ui-btn-left wow fadeIn" data-wow-delay='0.8s'><i class="zmdi zmdi-plus-circle zmdi-hc-2x"></i></a>
-				<h2>Liste des taches</h2>
+				<a href="#detailPage" tacheId="_new_" data-transition="pop" class="ui-btn ui-btn-left wow fadeIn" data-wow-delay='0.8s'><i class="zmdi zmdi-plus-circle"></i></a>
+				<h2 id="title">Liste des taches</h2>
 				<a href="#menuPanel" class="ui-btn ui-btn-right wow fadeIn fRight" data-wow-delay='0.8s'><i class="zmdi zmdi-more-vert"></i></a>
 			</div>
 			<div role="main" class="ui-content wow fadeIn" data-inset="false" data-wow-delay="0.2s">
@@ -98,6 +98,7 @@
 			</div>
 			
 			<div data-role="panel" id="menuPanel" data-position="right" data-display="overlay">
+					<div data-role="content" class="ui-content">Version 1.4</div>
 					<div data-role="header"  class="wow fadeIn"><h2>Trier par</h2></div>
 					 <select  id="tri">
                             <option value="dueDate">Ech&eacute;ance</option>
@@ -160,11 +161,21 @@
 
                 <div data-role="content" class="ui-content">
                     <p>Etes vous sur de vouloir supprimer cette tache?</p>
-                    <button id="confirmBtn" class="ui-btn"><i class='zmdi zmdi-check'></i>&nbsp;Oui</a>
-                    <button  id="cancelBtn" class="ui-btn"><i class='zmdi zmdi-close'></i>&nbsp;Non</a>
+                    <button id="confirmBtn" class="ui-btn"><i class='zmdi zmdi-check'></i>&nbsp;Oui</button>
+                    <button  id="cancelBtn" class="ui-btn"><i class='zmdi zmdi-close'></i>&nbsp;Non</button>
                 </div>
             </div>
+				<div data-role="popup" id="popupCtrlDialog" data-history="false">
 
+					<div data-role="header">
+						<h1 class='nd-title'>Erreur</h1>
+					</div>
+
+					<div data-role="content" class="ui-content">
+						<p>Une tache avec un nom identique existe d&eacute;ja. Impossible de cr&eacute;er la tache.</p>
+						<a  data-rel="back" class="ui-btn"><i class='zmdi zmdi-check'></i>&nbsp;ok</a>
+					</div>
+				</div>
 			</div>
 		</div>
 	</body>

@@ -29,11 +29,19 @@ $( "#detailPage" ).on( "pagecreate", function( event ) {
 		var type = $("#type").val();
 		if(detailPage==="_new_"){
 			console.log("creating a new Task");
-			var t = new Tache(nom,unite,duree,date,type);
-			t.save();
-			taches.add(t);
-			sortTaches();
-			console.log(t.toString());
+			var newTask = taches.getTacheByName(nom);
+			if(!(Object.keys(newTask).length)){
+			    var t = new Tache(nom,unite,duree,date,type);
+			    t.save();
+			    taches.add(t);
+			    sortTaches();
+			    console.log(t.toString());
+			    $.mobile.navigate("#main");
+                sendConfigUpdate();
+			}else{
+			    console.log("error task exist");
+			    $( "#popupCtrlDialog" ).popup( "open" );
+			}
 		}else{
 			console.log("updating current task");
 			var updatedTache = taches.getTacheByName(detailPage);
@@ -45,10 +53,10 @@ $( "#detailPage" ).on( "pagecreate", function( event ) {
 			updatedTache.save();
 			sortTaches();
 			console.log(updatedTache.toString());
-			
+			$.mobile.navigate("#main");
+            sendConfigUpdate();
 		}
-		$.mobile.navigate("#main");
-		sendConfigUpdate();
+
 	}
 	);
 
@@ -64,6 +72,7 @@ $( '#detailPage' ).on( 'pagebeforeshow',function(event){
 		var updatedTache = taches.getTacheByName(detailPage);
 		
 		$("#nom").val(updatedTache.nom);
+		$("#nom").prop("disabled",true);
 		$("#unite option[value='"+updatedTache.unite+"']").prop("selected",true);
 		$("#duree").val(updatedTache.duree);
 		$("#inputDate").val(convertDateToRFC(updatedTache.date));
@@ -75,6 +84,7 @@ $( '#detailPage' ).on( 'pagebeforeshow',function(event){
 	}else{
 		$("#trash").hide();
 		$("#nom").val("");
+		$("#nom").prop("disabled",false);
 		$("#unite option:selected").prop("selected",false);
 		$("#unite option[value='semaines']").prop("selected",true);
 		$("#unite").selectmenu("refresh");
