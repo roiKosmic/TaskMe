@@ -102,14 +102,14 @@ var TacheArray = function(){
 	    var array = this.taches;
 
             $.each(array, function(i){
-        			if(array[i].getDueDateMS()>= dateDuJour) {
-        				//console.log("removing obj at:"+i);
+        			//if(array[i].getDueDateMS()>= dateDuJour) {
+        			//	console.log("Adding obj at:"+i);
         				var r = {
         				    nom:  array[i].nom,
         				    dueDate: array[i].getDueDateMS().getTime()
         				    };
         			    jsonResult.config.push(r);
-        			}
+        			//}
         	});
 
         return jsonResult;

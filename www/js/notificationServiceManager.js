@@ -22,6 +22,8 @@ function startService(data) {
    }else{
         sendConfigUpdate();
         registerForBootStart();
+        console.log("Running once the service timer");
+        myService.runOnce();
    }
 }
 
